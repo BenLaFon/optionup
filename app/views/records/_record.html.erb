@@ -1,0 +1,42 @@
+<div id="<%= dom_id record %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Company:</strong>
+    <%= record.company_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Date:</strong>
+    <%= record.date_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">High:</strong>
+    <%= record.high %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Low:</strong>
+    <%= record.low %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Open:</strong>
+    <%= record.open %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Close:</strong>
+    <%= record.close %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Volume:</strong>
+    <%= record.volume %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this record", record, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this record', edit_record_path(record), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

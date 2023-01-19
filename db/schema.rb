@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_17_222742) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_184425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_222742) do
     t.string "name"
     t.string "ticker"
     t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.date "date"
+    t.integer "number_over_50_day"
+    t.integer "total_active_companies"
+    t.decimal "percentage_over_50"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

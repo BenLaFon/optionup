@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: one
+  date: one
+  high: MyString
+  low: MyString
+  open: MyString
+  close: MyString
+  volume: 1
+
+two:
+  company: two
+  date: two
+  high: MyString
+  low: MyString
+  open: MyString
+  close: MyString
+  volume: 1

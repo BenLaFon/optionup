@@ -1,0 +1,27 @@
+<div id="<%= dom_id day %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Date:</strong>
+    <%= day.date %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Number over 50 day:</strong>
+    <%= day.number_over_50_day %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Total active companies:</strong>
+    <%= day.total_active_companies %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Percentage over 50:</strong>
+    <%= day.percentage_over_50 %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this day", day, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this day', edit_day_path(day), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
