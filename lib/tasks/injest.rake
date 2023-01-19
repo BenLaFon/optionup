@@ -30,11 +30,13 @@ namespace :injest do
   end
 
   desc "Runs calculations on records for sma's"
-  task calculation_1: :environment do
+  task calc_sma: :environment do
+    Record.calc_sma
   end
 
   desc "Runs calculations on records for per_move's"
-  task calculation_2: :environment do
+  task calc_per_move: :environment do
+    Record.calc_per_move
   end
 
 end
