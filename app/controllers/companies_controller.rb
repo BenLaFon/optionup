@@ -8,6 +8,11 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1 or /companies/1.json
   def show
+    if params[:range].present?
+      @chart_data = Record.all.where(company: @company).last(params[:range]).map { |x| [x.date, x.close] }
+    else
+      @chart_data = Record.all.where(company: @company).map { |x| [x.date, x.close] }
+    end
   end
 
   # GET /companies/new
@@ -65,6 +70,6 @@ class CompaniesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def company_params
-      params.require(:company).permit(:name, :ticker, :status)
+      params.require(:company).permit(:name, :ticker, :status, :range)
     end
 end

@@ -24,6 +24,9 @@ namespace :injest do
 
   desc "Calls Yahoo Finance API and creates records in the database"
   task records: :environment do
+    Company.all.each do |company|
+      company.get_records
+    end
   end
 
   desc "Runs calculations on records for sma's"

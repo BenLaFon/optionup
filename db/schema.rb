@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_19_153407) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_19_171743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,9 +33,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_153407) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "errors", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.integer "status", default: 0
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_errors_on_company_id"
+  end
+
   create_table "records", force: :cascade do |t|
     t.bigint "company_id", null: false
-    t.bigint "day_id", null: false
+    t.bigint "day_id"
     t.date "date", null: false
     t.decimal "high", precision: 15, scale: 4, null: false
     t.decimal "low", precision: 15, scale: 4, null: false
@@ -72,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_153407) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "errors", "companies"
   add_foreign_key "records", "companies"
   add_foreign_key "records", "days"
 end

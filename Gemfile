@@ -78,4 +78,10 @@ gem 'devise'
 gem 'activerecord-import'
 gem "json"
 gem "rest-client"
+gem "httparty"
 gem 'date'
+
+gem 'chartkick'
+
+gem 'byebug'
+gem 'pry-rails'

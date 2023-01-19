@@ -1,22 +1,19 @@
 class Record < ApplicationRecord
   belongs_to :company
-  belongs_to :date
-  validate :unique_record
+  belongs_to :day, optional: true
+  validates :date, presence: true
+  validates :date, uniqueness: { scope: :company_id,
+    message: "Uniqueness on company and date" }
+  validates :company, presence: true
+  validates :open, presence: true
+  validates :high, presence: true
+  validates :low, presence: true
+  validates :close, presence: true
+  validates :volume, presence: true
+
 
 
 
   private
 
-  def unique_record
-    p "checking"
-    result = ActiveRecord::Base.connection.execute("SELECT * FROM records
-    WHERE company_id = #{self.company_id} AND date = '#{self.date}'")
-    if result.count > 0
-      errors.add(:date, "already has a daily stat for this company")
-      p "Unique validation failed"
-      return
-    end
-    p "Uniqueness validated, saving"
-
-  end
 end

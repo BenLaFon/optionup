@@ -2,7 +2,7 @@ class CreateRecords < ActiveRecord::Migration[7.0]
   def change
     create_table :records do |t|
       t.references :company, null: false, foreign_key: true
-      t.references :day, null: false, foreign_key: true
+      t.references :day, optional: true, foreign_key: true
       t.date :date, null: false
 
       # base stats
