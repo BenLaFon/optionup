@@ -75,3 +75,7 @@ group :test do
 end
 
 gem 'devise'
+gem 'activerecord-import'
+gem "json"
+gem "rest-client"
+gem 'date'

@@ -17,7 +17,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_153407) do
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "ticker"
-    t.integer "status"
+    t.string "industry"
+    t.string "sector"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
