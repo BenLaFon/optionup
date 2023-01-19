@@ -2,8 +2,9 @@ class CreateRecords < ActiveRecord::Migration[7.0]
   def change
     create_table :records do |t|
       t.references :company, null: false, foreign_key: true
-      t.references :date, null: false, foreign_key: true
+      t.references :day, null: false, foreign_key: true
       t.date :date, null: false
+
       # base stats
       t.decimal :high, precision: 15, scale: 4, null: false
       t.decimal :low, precision: 15, scale: 4, null: false
@@ -27,7 +28,6 @@ class CreateRecords < ActiveRecord::Migration[7.0]
       t.decimal :per_move_10_200, precision: 15, scale: 4
       t.decimal :per_move_close_50, precision: 15, scale: 4
 
-      add_index :records, [:company_id, :date], unique: true
 
       t.timestamps
     end
