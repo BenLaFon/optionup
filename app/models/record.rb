@@ -26,7 +26,7 @@ class Record < ApplicationRecord
     p "per_move_20_200 run"
     ActiveRecord::Base.connection.execute("UPDATE records SET per_move_10_200 = (sma_10::double precision - sma_200::double precision) / sma_200::double precision * 100.00000")
     p "per_move_10_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_close_50 = (close::double precision - sma_50::double precision) / sma_50::double precision * 100.000000")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_close_50 = (close::double precision - sma_50::double precision) / sma_50::double precision * 100.000000 ")
     p "per_move_close_50 run"
   end
 

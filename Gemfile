@@ -85,3 +85,5 @@ gem 'chartkick'
 
 gem 'byebug'
 gem 'pry-rails'
+
+gem 'whenever', require: false
