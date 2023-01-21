@@ -3,7 +3,11 @@ class CompaniesController < ApplicationController
 
   # GET /companies or /companies.json
   def index
-    @companies = Company.all
+    if params[:q].nil?
+      @companies = Company.all
+    else
+      @companies = Company.where("name ILIKE ? OR ticker ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    end
   end
 
   # GET /companies/1 or /companies/1.json

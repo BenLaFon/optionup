@@ -7,7 +7,7 @@
   </div>
   <%= link_to 'Back to companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   <%= form_tag(company_path(@company), method: "get") do %>
-    <%= label_tag(:range, "Enter a number:") %>
+    <%= label_tag(:range, "Enter range:") %>
     <%= text_field_tag(:range) %>
     <%= submit_tag("Go") %>
   <% end %>
