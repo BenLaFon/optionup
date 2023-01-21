@@ -6,8 +6,12 @@
     <%= button_to 'Destroy this company', company_path(@company), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
   </div>
   <%= link_to 'Back to companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= form_tag(company_path(@company), method: "get") do %>
+    <%= label_tag(:range, "Enter a number:") %>
+    <%= text_field_tag(:range) %>
+    <%= submit_tag("Go") %>
+  <% end %>
 </div>
-
 <div class =" min-h-screen w-full">
   <div class="w-full h-min-400 ">
     <%= render "charts/sma" %>

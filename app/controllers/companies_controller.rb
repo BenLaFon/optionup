@@ -8,7 +8,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1 or /companies/1.json
   def show
-    params[:range] ||= 1000
+    set_range
     @sma_data = Record.all.where(company: @company).order(date: :desc).first(params[:range].to_i).map { |x| [x.date, x.close, x.sma_10, x.sma_20, x.sma_30, x.sma_50, x.sma_100, x.sma_200] }
     @per_data = Record.all.where(company: @company).order(date: :desc).first(params[:range].to_i).map { |x| [x.date, x.per_move_10_200, x.per_move_20_200, x.per_move_30_200, x.per_move_50_200, x.per_move_100_200, x.per_move_close_50] }
   end
@@ -62,12 +62,18 @@ class CompaniesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_company
-      @company = Company.find(params[:id])
-    end
+  def set_company
+    @company = Company.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def company_params
-      params.require(:company).permit(:name, :ticker, :status, :range)
+  # Only allow a list of trusted parameters through.
+  def company_params
+    params.require(:company).permit(:name, :ticker, :status, :range)
+  end
+
+  def set_range
+    if params[:range].nil? || params[:range].to_i.zero?
+      params[:range] = 1000
     end
+  end
 end
