@@ -15,58 +15,10 @@
     <% end %>
 
         <%= link_to 'Back to all companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+        <%= link_to 'recommendations', recommendations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
 
   </div>
 
-  <div id="companies" class="min-w-full">
-    <div class="px-4 sm:px-6 lg:px-8">
-    <div class="mt-8 flex flex-col items-center">
-      <div class="-my-2 -mx-4 sm:-mx-6 lg:-mx-8 ">
-        <div class="inline-block max-w-7xl py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg max-h-128">
-            <table class="divide-y divide-gray-300 table-fixed">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Symbol</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Industry</th>
-                  <%# <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dividends</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">EPS</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Market Cap</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">3m Avg</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Trailing PES</th> %>
-                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                    <span class="sr-only">Favorite</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <% @companies.each do |company| %>
-                  <a href="/companies/<%=company.id%>">
-                    <tr>
-                      <td class=" py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.ticker%></a></td>
-                      <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.name%></a></td>
-                      <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.sector%></a></td>
-                      <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.industry%></a></td>
-                      <%# <td class=" px-3 py-4 text-sm text-gray-500">dividends</td>
-                      <td class=" px-3 py-4 text-sm text-gray-500">EPS</td>
-                      <td class=" px-3 py-4 text-sm text-gray-500">Market</td>
-                      <td class=" px-3 py-4 text-sm text-gray-500">3m Avg</td>
-                      <td class=" px-3 py-4 text-sm text-gray-500">Trailing PES</td> %>
-                      <td class="relative  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="/companies/<%=company.id%>" class="text-indigo-600 hover:text-indigo-900">Fav</a>
-                      </td>
-                    </tr>
-                  </a>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <%= render"company_table", companies: @companies%>
   </div>
 </div>

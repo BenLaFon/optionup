@@ -1,10 +1,9 @@
 <div class="flex justify-between mx-48 my-8 py-4 align-text-bottom">
   <div class="text-2xl font-bold" > <%= @company.ticker %></div>
   <div class="text-2xl font-bold" > <%= @company.name %></div>
-  <%= link_to 'Edit this company', edit_company_path(@company), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <div class="inline-block ml-2">
-    <%= button_to 'Destroy this company', company_path(@company), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-  </div>
+  <%# <%= link_to 'Edit this company', edit_company_path(@company), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to 'recommendations', recommendations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+
   <%= link_to 'Back to companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   <%= form_tag(company_path(@company), method: "get") do %>
     <%= label_tag(:range, "Enter range:") %>
@@ -12,6 +11,7 @@
     <%= submit_tag("Go") %>
   <% end %>
 </div>
+<div class="text-4xl mx-48 align-text-bottom"> <%=  "RECOMMENDATION LEVEL : #{@company.query_1_status}" %></div>
 <div class =" min-h-screen w-full">
   <div class="w-full h-min-400 ">
     <%= render "charts/sma" %>

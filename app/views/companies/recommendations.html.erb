@@ -1,0 +1,19 @@
+<div class="flex justify-between mx-24">
+  <div class="text-6xl"> recommendations</div>
+  <%= link_to 'companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+</div>
+<div class="text-2xl"> 10 day > 20 day  Results : <%= @level_5.count %></div >
+<%= render"company_table", companies: @level_5%>
+
+<div  class="text-2xl"> High point less than  35%  Results : <%= @level_4.count %></div >
+<%= render"company_table", companies: @level_4%>
+
+<div class="text-2xl" > 80th percentile <%= @level_3.count %></div >
+<%= render"company_table", companies: @level_3%>
+
+<div  class="text-2xl"> 45 days closing under 50day avg  Results : <%= @level_2.count %></div >
+<%= render"company_table", companies: @level_2%>
+
+<div  class="text-2xl"> 50 below 200 Results : <%= @level_1.count %></div >
+
+<%= render"company_table", companies: @level_1%>

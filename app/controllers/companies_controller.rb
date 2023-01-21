@@ -1,5 +1,7 @@
 class CompaniesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_company, only: %i[ show edit update destroy ]
+  before_action :set_user
 
   # GET /companies or /companies.json
   def index
@@ -10,6 +12,17 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def recommendations
+    @level_1 = Company.one
+    @level_2 = Company.two
+    @level_3 = Company.three
+    @level_4 = Company.four
+    @level_5 = Company.five
+  end
+
+  def favorites
+    @companies = current_user.companies
+  end
   # GET /companies/1 or /companies/1.json
   def show
     set_range
@@ -68,6 +81,10 @@ class CompaniesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
   def set_company
     @company = Company.find(params[:id])
+  end
+
+  def set_user
+    @current_user = current_user
   end
 
   # Only allow a list of trusted parameters through.
