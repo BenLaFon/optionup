@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: optionup_production
-  username: optionup
-  password: <%= ENV["OPTIONUP_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  database: <%= ENV["PGDATABASE"] %>
+  username: <%= ENV["PGUSER"] %>
+  password: <%= ENV["STOCKS_APP_DATABASE_PASSWORD"] %>
