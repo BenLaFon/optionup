@@ -8,11 +8,10 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1 or /companies/1.json
   def show
-    if params[:range].present?
-      @chart_data = Record.all.where(company: @company).last(params[:range]).map { |x| [x.date, x.close] }
-    else
-      @chart_data = Record.all.where(company: @company).map { |x| [x.date, x.close] }
-    end
+    params[:range] ||= 1000
+    @highs_data = Record.all.where(company: @company).order(date: :asc).last(params[:range]).map { |x| [x.date, x.close] }
+    @sma_data = Record.all.where(company: @company).order(date: :asc).last(params[:range]).map { |x| [x.date, x.close, x.sma_10, x.sma_20, x.sma_30, x.sma_50, x.sma_100, x.sma_200] }
+    @per_data = Record.all.where(company: @company).order(date: :asc).last(params[:range]).map { |x| [x.date, x.per_move_10_200, x.per_move_20_200, x.per_move_30_200, x.per_move_50_200, x.per_move_100_200, x.per_move_close_50] }
   end
 
   # GET /companies/new

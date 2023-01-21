@@ -28,6 +28,7 @@ class Record < ApplicationRecord
     p "per_move_10_200 run"
     ActiveRecord::Base.connection.execute("UPDATE records SET per_move_close_50 = (close::double precision - sma_50::double precision) / sma_50::double precision * 100.000000 ")
     p "per_move_close_50 run"
+    Record.all.where(per_move_100_200: nil).count.positive? ? p("Percenateges still has nils") : p("Percenateges has no nils")
   end
 
   def self.calc_sma
@@ -57,7 +58,7 @@ class Record < ApplicationRecord
     end_time = Time.now
     puts "ended #{end_time}| total time was #{end_time - start_time} "
 
-    Record.all.where(sma_10: nil).count.positive? ? p("sma_10 still has nils") : p("sma_10 has no nils")
+    Record.all.where(sma_10: nil).count.positive? ? p("averages still has nils") : p("averages has no nils")
 
   end
 

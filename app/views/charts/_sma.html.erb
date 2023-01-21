@@ -1,0 +1,35 @@
+<div id="sma_chart_div" class="w-full"></div>
+
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Date');
+    data.addColumn('number', 'Close');
+    data.addColumn('number', '10 Day SMA');
+    data.addColumn('number', '20 Day SMA');
+    data.addColumn('number', '30 Day SMA');
+    data.addColumn('number', '50 Day SMA');
+    data.addColumn('number', '100 Day SMA');
+    data.addColumn('number', '200 Day SMA');
+
+    <% @sma_data.each do |data_point| %>
+    data.addRow([
+    "<%= data_point[0] %>", <%= data_point[1] %>,<%= data_point[2] %>,
+    <%= data_point[3] %>, <%= data_point[4] %>, <%= data_point[5] %>,
+    <%= data_point[6] %>, <%= data_point[7] %>, <%= data_point[8] %>]);
+    <% end %>
+
+    var options = {
+      title: 'Moving Averages',
+      height: 600,
+      responsive: true,
+      legend: { position: 'bottom' }
+
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('sma_chart_div'));
+    chart.draw(data, options);
+  }
+</script>

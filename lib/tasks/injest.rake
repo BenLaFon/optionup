@@ -3,7 +3,7 @@ require 'csv'
 namespace :injest do
   desc "Reads CSV files and creates records in the database"
   task companies: :environment do
-    CSV_PATH = "test_tickers.csv"
+    CSV_PATH = "tickers_edit.csv"
     companies = []
     CSV.foreach(CSV_PATH, headers: true) do |row|
       company = Hash.new

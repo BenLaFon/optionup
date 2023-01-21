@@ -1,0 +1,34 @@
+<div id="per_chart_div" class="w-full"></div>
+
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Date');
+    data.addColumn('number', '10_200');
+    data.addColumn('number', '20_200');
+    data.addColumn('number', '30_200');
+    data.addColumn('number', '50_200');
+    data.addColumn('number', '100_200');
+    data.addColumn('number', 'close_50');
+
+    <% @per_data.each do |data_point| %>
+    data.addRow([
+    "<%= data_point[0] %>", <%= data_point[1] %>,<%= data_point[2] %>,
+    <%= data_point[3] %>, <%= data_point[4] %>, <%= data_point[5] %>,
+    <%= data_point[6] %>, <%= data_point[7] %>]);
+    <% end %>
+
+    var options = {
+      title: 'Percenatage moves',
+      legend: { position: 'bottom' },
+      height: 600,
+      responsive: true,
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('per_chart_div'));
+    chart.draw(data, options);
+  }
+</script>
