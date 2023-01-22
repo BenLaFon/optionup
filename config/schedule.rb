@@ -1,5 +1,6 @@
-# env :GEM_PATH, ENV['GEM_PATH']
 
+env :PATH, ENV['PATH']
+env :GEM_PATH, ENV['GEM_PATH']
 set :output, "cron_log.log"
 # set :bundle_command, "/Users/ben/.rbenv/shims/bundle exec"
 every 1.minute do
