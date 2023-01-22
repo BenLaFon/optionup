@@ -100,8 +100,8 @@ class Company < ApplicationRecord
     a = company.records.pluck(:per_move_close_50).sort
     company.eighty_percentile = a[0.2 * a.count]
     company.save
+    end
   end
-end
 
   private
 
