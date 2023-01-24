@@ -13,11 +13,8 @@ class CompaniesController < ApplicationController
   end
 
   def recommendations
-    @level_1 = Company.one
-    @level_2 = Company.two
-    @level_3 = Company.three
-    @level_4 = Company.four
-    @level_5 = Company.five
+    get_recommendation_tab
+
   end
 
   def favorites
@@ -81,6 +78,28 @@ class CompaniesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
   def set_company
     @company = Company.find(params[:id])
+  end
+
+  def get_recommendation_tab
+    if params[:tab].nil?
+      tab = 1
+    else
+      tab = params[:tab].to_i
+    end
+
+    case tab
+    when 1
+      @companies = Company.one
+    when 2
+      @companies = Company.two
+    when 3
+      @companies = Company.three
+    when 4
+      @companies = Company.four
+    when 5
+      @companies = Company.five
+    end
+    @companies
   end
 
   def set_user
