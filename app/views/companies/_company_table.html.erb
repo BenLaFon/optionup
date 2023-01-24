@@ -1,16 +1,17 @@
-<div id="companies" class="min-w-full">
-    <div class="px-4 sm:px-6 lg:px-8">
-    <div class="mt-8 flex flex-col items-center">
+<div id="companies" class="min-w-full ">
+  <div class="px-4 sm:px-6 lg:px-8 ">
+    <div class="mt-8 flex flex-col items-center ">
       <div class="-my-2 -mx-4 sm:-mx-6 lg:-mx-8 ">
-        <div class="inline-block max-w-7xl py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg max-h-128">
-            <table class="divide-y divide-gray-300 table-fixed">
+        <div class="inline-block  max-w-7xl py-2 align-middle md:px-6 lg:px-8 ">
+          <div class=" h-screen overflow-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg ">
+            <table class="divide-y divide-gray-300 table-fixed  ">
               <thead class="bg-gray-50">
                 <tr>
                   <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Symbol</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Industry</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Level</th>
                   <%# <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dividends</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">EPS</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Market Cap</th>
@@ -21,7 +22,7 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
+              <tbody class="divide-y divide-gray-200 bg-white ">
                 <% companies.each do |company| %>
                   <a href="/companies/<%=company.id%>">
                     <tr>
@@ -29,6 +30,7 @@
                       <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.name%></a></td>
                       <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.sector%></a></td>
                       <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.industry%></a></td>
+                      <td class=" px-3 py-4 text-sm text-gray-500"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.query_1_status%></a></td>
                       <%# <td class=" px-3 py-4 text-sm text-gray-500">dividends</td>
                       <td class=" px-3 py-4 text-sm text-gray-500">EPS</td>
                       <td class=" px-3 py-4 text-sm text-gray-500">Market</td>
