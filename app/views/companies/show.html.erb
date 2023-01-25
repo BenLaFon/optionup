@@ -13,11 +13,11 @@
 </div>
 
 <div class="text-4xl mx-48 align-text-bottom"> <%=  "RECOMMENDATION LEVEL : #{@company.query_1_status}" %></div>
-<div class="text-4xl mx-48 align-text-bottom text-<%=@company.color_code%>-400"> <%=  "Color : #{@company.color_code.upcase}"%> </div>
+<div class="text-4xl mx-48 align-text-bottom text-<%=@company.color_code%>-500"> <%=  "Color : #{@company.color_code.upcase}"%> </div>
 <div class="isolate inline-flex rounded-md shadow-sm">
-  <%= button_to "red", company_color_path(@company, color_code: 'red', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
-  <%= button_to "yellow", company_color_path(@company, color_code: 'yellow', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
-  <%= button_to "green", company_color_path(@company, color_code: 'green', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "red", company_color_path(@company, color_code: 'red', id: @company.id), class: "rounded-lg py-3 px-5 bg-red-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "yellow", company_color_path(@company, color_code: 'yellow', id: @company.id), class: "rounded-lg py-3 px-5 bg-yellow-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "green", company_color_path(@company, color_code: 'green', id: @company.id), class: "rounded-lg py-3 px-5 bg-green-100 inline-block font-medium", remote: :true, method: :patch %>
   <%= button_to "grey", company_color_path(@company, color_code: 'gray', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
 </div>
 
