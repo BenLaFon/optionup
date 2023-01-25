@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :days
   resources :companies do
 
-    patch 'update_color/:color_code', to: 'companies#update_color', as: 'update_color'
+    patch 'color', to: 'companies#color'
 
   end
   get "/charts/sma", to: "charts#sma"

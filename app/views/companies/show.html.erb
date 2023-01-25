@@ -1,5 +1,5 @@
 <div class="flex justify-between mx-48 my-8 py-4 align-text-bottom">
-  <div class="text-2xl font-bold" > <%= @company.ticker %></div>
+  <div class="text-2xl font-bold" > <%= @company.ticker %> ---</div>
   <div class="text-2xl font-bold" > <%= @company.name %></div>
   <%# <%= link_to 'Edit this company', edit_company_path(@company), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   <%= link_to 'recommendations', recommendations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
@@ -11,7 +11,16 @@
     <%= submit_tag("Go") %>
   <% end %>
 </div>
+
 <div class="text-4xl mx-48 align-text-bottom"> <%=  "RECOMMENDATION LEVEL : #{@company.query_1_status}" %></div>
+<div class="text-4xl mx-48 align-text-bottom text-<%=@company.color_code%>-400"> <%=  "Color : #{@company.color_code.upcase}"%> </div>
+<div class="isolate inline-flex rounded-md shadow-sm">
+  <%= button_to "red", company_color_path(@company, color_code: 'red', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "yellow", company_color_path(@company, color_code: 'yellow', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "green", company_color_path(@company, color_code: 'green', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
+  <%= button_to "grey", company_color_path(@company, color_code: 'gray', id: @company.id), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium", remote: :true, method: :patch %>
+</div>
+
 <div class =" min-h-screen w-full">
   <div class="w-full h-min-400 ">
     <%= render "charts/sma" %>

@@ -12,7 +12,7 @@
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Industry</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Level</th>
-                  <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Color</th>
+                  <%# <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Color</th> %>
                   <%# <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dividends</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">EPS</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Market Cap</th>
@@ -25,17 +25,14 @@
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white ">
                 <% companies.each do |company| %>
-                  <tr class="bg-<%= company.color_code%>-200">
+                  <tr class="bg-<%=company.color_code%>-200">
                     <td class=" py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.ticker%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.name%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.sector%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.industry%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.query_1_status%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900">
-                      <span class="isolate inline-flex rounded-md shadow-sm">
-                        <%# <%= button_to "red", company_update_color_path(id: company.id, color_code: 'red'), method: :patch, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %> %>
 
-                      </span>
                     </td>
                     <%# <td class=" px-3 py-4 text-sm text-gray-500">dividends</td>
                     <td class=" px-3 py-4 text-sm text-gray-500">EPS</td>
