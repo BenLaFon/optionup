@@ -13,11 +13,8 @@ class CompaniesController < ApplicationController
   end
 
   def recommendations
-    @level_1 = Company.one
-    @level_2 = Company.two
-    @level_3 = Company.three
-    @level_4 = Company.four
-    @level_5 = Company.five
+    get_recommendation_tab
+
   end
 
   def favorites
@@ -67,6 +64,17 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def color
+
+
+
+    @company = Company.find(params[:id])
+
+    @company.color_code = params[:color_code]
+    @company.save
+    redirect_to company_url(@company)
+  end
+
   # DELETE /companies/1 or /companies/1.json
   def destroy
     @company.destroy
@@ -83,13 +91,35 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
   end
 
+  def get_recommendation_tab
+    if params[:tab].nil?
+      tab = 5
+    else
+      tab = params[:tab].to_i
+    end
+
+    case tab
+    when 1
+      @companies = Company.one
+    when 2
+      @companies = Company.two
+    when 3
+      @companies = Company.three
+    when 4
+      @companies = Company.four
+    when 5
+      @companies = Company.five
+    end
+    @companies
+  end
+
   def set_user
     @current_user = current_user
   end
 
   # Only allow a list of trusted parameters through.
   def company_params
-    params.require(:company).permit(:name, :ticker, :status, :range)
+    params.require(:company).permit(:name, :ticker, :status, :range, :color_code)
   end
 
   def set_range

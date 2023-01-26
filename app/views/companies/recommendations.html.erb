@@ -1,19 +1,31 @@
 <div class="flex justify-between mx-24">
   <div class="text-6xl"> recommendations</div>
+  <div class="block align-middle justify-center">
+  <%= link_to 'Level - 1', recommendations_path(tab: "1"), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  <h1>50 below 200</h1>
+
+  </div>
+  <div class="block align-middle justify-center">
+  <%= link_to 'Level - 2', recommendations_path(tab: "2"), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  <h1>45 days closing under 50day avg</h1>
+
+  </div>
+  <div class="block align-middle justify-center">
+  <%= link_to 'Level - 3', recommendations_path(tab: "3"), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  <h1>80th percentile</h1>
+
+  </div>
+  <div class="block align-middle justify-center">
+  <%= link_to 'Level - 4', recommendations_path(tab: "4"), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  <h1>High point less than  35%</h1>
+
+  </div>
+  <div class="block align-middle justify-center">
+  <%= link_to 'Level - 5', recommendations_path(tab: "5"), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  <h1>10 day > 20 day</h1>
+
+  </div>
   <%= link_to 'companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
 </div>
-<div class="text-2xl"> 10 day > 20 day  Results : <%= @level_5.count %></div >
-<%= render"company_table", companies: @level_5%>
-
-<div  class="text-2xl"> High point less than  35%  Results : <%= @level_4.count %></div >
-<%= render"company_table", companies: @level_4%>
-
-<div class="text-2xl" > 80th percentile <%= @level_3.count %></div >
-<%= render"company_table", companies: @level_3%>
-
-<div  class="text-2xl"> 45 days closing under 50day avg  Results : <%= @level_2.count %></div >
-<%= render"company_table", companies: @level_2%>
-
-<div  class="text-2xl"> 50 below 200 Results : <%= @level_1.count %></div >
-
-<%= render"company_table", companies: @level_1%>
+<div class="text-2xl"> LEVEL - <%= params[:tab] %> | Results : <%= @companies.count %></div >
+<%= render"company_table", companies: @companies%>

@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :records
   resources :days
-  resources :companies
+  resources :companies do
+
+    patch 'color', to: 'companies#color'
+
+  end
   get "/charts/sma", to: "charts#sma"
   get "/charts/per_move", to: "charts#per_move"
   get "/charts/highs", to: "charts#highs"

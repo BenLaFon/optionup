@@ -4,6 +4,8 @@ class Company < ApplicationRecord
   has_many :users, through: :user_favorites
   validates :ticker, presence: true, uniqueness: true
   enum query_1_status: { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5 }
+  enum color_code: { gray: 0, green: 1, yellow: 2, red: 3 }
+  default_scope -> { order(ticker: :asc) }
 
   def get_records
 
