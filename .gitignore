@@ -35,3 +35,5 @@
 
 /test_tickers.csv
 /tickers_edit.csv
+.DS_Store
+db/.DS_Store
