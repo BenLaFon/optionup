@@ -9,4 +9,8 @@ namespace :update do
     Company.set_query_1_status
   end
 
+  task status: :environment do
+    Company.set_query_1_status
+  end
+
 end

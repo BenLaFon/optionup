@@ -3,14 +3,13 @@ class Company < ApplicationRecord
   has_many :user_favorites
   has_many :users, through: :user_favorites
   validates :ticker, presence: true, uniqueness: true
-  enum query_1_status: { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5 }
+  enum query_1_status: { zero_1: 0, one_1: 1, two_1: 2, three_1: 3, four_1: 4, five_1: 5 }
+  enum query_2_status: { zero_2: 0, one_2: 1, two_2: 2, three_2: 3, four_2: 4, five_2: 5 }
   enum color_code: { gray: 0, green: 1, yellow: 2, red: 3 }
   default_scope -> { order(ticker: :asc) }
 
   def get_records
-
     result = call_yahoo_api
-
     if result.nil?
       x = Error.create(company: self, message: "no records for #{ticker}, was returned nil")
       p "no records for #{ticker} created error id:#{x.id} with message:#{x.message}"
@@ -20,7 +19,6 @@ class Company < ApplicationRecord
     highs = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'high')
     unpack_records(result, highs)
     p "finished getting records for #{ticker}"
-
   end
 
   def self.set_query_1_status
@@ -42,9 +40,9 @@ class Company < ApplicationRecord
     companies.each do |company|
       company.update(query_1_status: 1)
     end
-    p "#{Company.one.count} companies are level 1"
+    p "#{Company.one_1.count} companies are level 1"
     # level 2 closings under 50 day average for at least 45 days
-    Company.one.each do |company|
+    Company.one_1.each do |company|
       p "#{company.name} processing level 2"
       company.records.order(date: :desc).limit(45).each do |record|
         result = 0
@@ -54,20 +52,20 @@ class Company < ApplicationRecord
         company.update(query_1_status: 2) if result == 0
       end
     end
-    p "#{Company.two.count} companies are level 2"
+    p "#{Company.two_1.count} companies are level 2"
     # level 3 per_move_close_50 is in the lowest 80th percentile
     p "processing level 3"
-    Company.two.each do |company|
+    Company.two_1.each do |company|
 
       p"#{company} processing level 3"
-      if company.records.order(date: :desc).limit(1)[0]["per_move_close_50"].to_f <= company.eighty_percentile.to_i
+      if company.records.order(date: :desc).limit(1)[0]["per_move_close_50"].negative?
         company.update(query_1_status: 3)
       end
     end
-    p "#{Company.three.count} companies are level 3"
+    p "#{Company.three_1.count} companies are level 3"
     # level 4 the latest close is below the highest point in the window by at least 35%
     p "processing level 4"
-    Company.three.each do |company|
+    Company.three_1.each do |company|
       high = 0
       index = 0
 
@@ -80,30 +78,82 @@ class Company < ApplicationRecord
 
       end
 
-
-
-      high = high * 0.65
-      company.update(query_1_status: 4) if company.records.order(date: :desc).limit(1)[0]["close"].to_f <= high.to_f
+      adj_high = high * 0.75
+      company.update(query_1_status: 4) if company.records.order(date: :desc).limit(1)[0]["close"].to_f <= adj_high.to_f
 
       p "#{company.name} processed level 4"
-
-
     end
-    p "#{Company.four.count} companies are level 4"
+    p "#{Company.four_1.count} companies are level 4"
     # level 5 the ten day average is grater than the 20 day avg
-    Company.four.each do |company|
+    Company.four_1.each do |company|
       company.update(query_1_status: 5) if company.records.order(date: :desc).limit(1)[0]["sma_10"].to_f >= company.records.order(date: :desc).limit(10)[0]["sma_20"].to_f
     end
-    p "#{Company.five.count} companies are level 5"
+    p "#{Company.five_1.count} companies are level 5"
   end
+
+
+  # def self.set_query_2_status
+  #   # seveny percentile
+  #   p "running set_query_2_status, setting 70th percentile"
+  #   Company.calc_seventy_percentile
+  #   Company.two_1.each do |company|
+
+  #     p"#{company} processing level 3_2"
+  #     if company.records.order(date: :desc).limit(1)[0]["per_move_close_50"].to_f <= company.seventy_percentile.to_f
+  #       company.update(query_2_status: 3)
+  #     end
+  #   end
+  #   p "#{Company.three_2.count} companies are level 3"
+  #   # level 4 the latest close is below the highest point in the window by at least 35%
+  #   p "processing level 4"
+  #   Company.three_2.each do |company|
+  #     high = 0
+  #     index = 0
+
+  #     records = company.records.order(date: :desc)
+  #     while records[index]["close"].to_f <= records[index]["sma_50"].to_f
+  #       if records[index]["close"].to_f > high
+  #         high = records[index]["close"].to_f
+  #       end
+  #       index += 1
+  #     end
+  #     # high less than 20%
+  #     high = high * 0.20
+  #     company.update(query_2_status: 4) if company.records.order(date: :desc).limit(1)[0]["close"].to_f <= high.to_f
+
+  #     p "#{company.name} processed level 4"
+  #   end
+  #   p "#{Company.four_2.count} companies are level 4"
+  #   # level 5 the ten day average is grater than the 20 day avg
+  #   Company.four_2.each do |company|
+  #     company.update(query_2_status: 5) if company.records.order(date: :desc).limit(1)[0]["sma_10"].to_f >= company.records.order(date: :desc).limit(10)[0]["sma_20"].to_f
+  #   end
+  #   p "#{Company.five_2.count} companies are level 5"
+  # end
 
   def self.calc_eighty_percentile
     Company.all.each do |company|
     a = company.records.pluck(:per_move_close_50).sort
-    company.eighty_percentile = a[0.2 * a.count]
+    company.eighty_percentile = a[0.8 * a.count]
     company.save
+    end
   end
-end
+
+  def self.calc_seventy_percentile
+    Company.all.each do |company|
+    a = company.records.pluck(:per_move_close_50).sort
+    company.seventy_percentile = a[0.7 * a.count]
+    company.save
+    end
+  end
+
+
+  # Running level 2-a query needs to find way to organize queries better
+  def self.calc_level_two
+    Company.two.each do |company|
+      company.update(level_two: true) if company.records.order(date: :desc).limit(1)[0]["sma_10"].to_f >= company.records.order(date: :desc).limit(10)[0]["sma_20"].to_f
+    end
+  end
 
   private
 
@@ -184,8 +234,8 @@ end
   end
 
 
-def set_latest_date
-  self.records.maximum(:date)
-end
+  def set_latest_date
+    self.records.maximum(:date)
+  end
 
 end

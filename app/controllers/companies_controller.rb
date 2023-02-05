@@ -98,19 +98,41 @@ class CompaniesController < ApplicationController
       tab = params[:tab].to_i
     end
 
-    case tab
-    when 1
-      @companies = Company.one
-    when 2
-      @companies = Company.two
-    when 3
-      @companies = Company.three
-    when 4
-      @companies = Company.four
-    when 5
-      @companies = Company.five
+    if params[:query].nil?
+      query = 1
+    else
+      query = params[:query].to_i
     end
-    @companies
+
+    if query == 1
+      case tab
+      when 1
+        @companies = Company.one_1
+      when 2
+        @companies = Company.two_1
+      when 3
+        @companies = Company.three_1
+      when 4
+        @companies = Company.four_1
+      when 5
+        @companies = Company.five_1
+      end
+      @companies
+    elsif query == 2
+      case tab
+      when 1
+        @companies = Company.one_2
+      when 2
+        @companies = Company.two_2
+      when 3
+        @companies = Company.three_2
+      when 4
+        @companies = Company.four_2
+      when 5
+        @companies = Company.five_2
+      end
+      @companies
+    end
   end
 
   def set_user
@@ -119,7 +141,7 @@ class CompaniesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def company_params
-    params.require(:company).permit(:name, :ticker, :status, :range, :color_code)
+    params.require(:company).permit(:name, :ticker, :status, :range, :color_code, :query)
   end
 
   def set_range

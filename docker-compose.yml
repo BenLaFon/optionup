@@ -19,6 +19,19 @@ services:
       - db
     ports:
       - "3000:3000"
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+  crond:
+    build: .
+    command: crond && bundle exec whenever --set 'env_path=/usr/local/bin' --update-crontab
+    environment:
+      DATABASE_URL: "postgres://postgres:password@db:5432/postgres"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    links:
+      - db
+    restart: always
 
 volumes:
   dbdata:
