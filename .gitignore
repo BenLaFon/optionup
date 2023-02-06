@@ -37,5 +37,5 @@
 /tickers_edit.csv
 .DS_Store
 db/.DS_Store
-optionup_aws.pem
+option.pem
 .dockerignore

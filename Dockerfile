@@ -27,7 +27,8 @@ ENV BUNDLE_PATH /gems
 RUN yarn install --check-files
 RUN bundle install
 
-ENTRYPOINT [ "bin/sh" ]
+ENTRYPOINT [ "bin/rails" ]
+CMD [ "s", "-b", "0.0.0.0" ]
 
 
 EXPOSE 3000
