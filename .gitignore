@@ -39,3 +39,4 @@
 db/.DS_Store
 option.pem
 .dockerignore
+optionup_development_feb_5.psql

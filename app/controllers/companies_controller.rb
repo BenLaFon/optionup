@@ -39,11 +39,24 @@ class CompaniesController < ApplicationController
   # POST /companies or /companies.json
   def create
     @company = Company.new(company_params)
+    @company.new = true
+    resource = RestClient::Resource.new("https://query1.finance.yahoo.com/v7/finance/quote?symbols=#{@company.ticker}")
+    result = JSON.parse(resource.get)
+    if result.dig("quoteResponse", "result", 0, "longName").nil?
+      render :new, status: :unprocessable_entity
+      return
+    end
+    @company.name = result.dig("quoteResponse", "result", 0, "longName")
+
 
     respond_to do |format|
       if @company.save
         format.html { redirect_to company_url(@company), notice: "Company was successfully created." }
         format.json { render :show, status: :created, location: @company }
+        @company.get_records
+        Record.calc_sma
+        Record.calc_per_move
+        @company.update(new: false)
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @company.errors, status: :unprocessable_entity }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_163548) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_07_193758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_163548) do
     t.integer "color_code", default: 0
     t.integer "query_2_status", default: 0
     t.decimal "seventy_percentile"
+    t.boolean "new"
   end
 
   create_table "days", force: :cascade do |t|
@@ -36,15 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_163548) do
     t.decimal "percentage_over_50"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "errors", force: :cascade do |t|
-    t.bigint "company_id", null: false
-    t.integer "status", default: 0
-    t.string "message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["company_id"], name: "index_errors_on_company_id"
   end
 
   create_table "records", force: :cascade do |t|
@@ -95,7 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_163548) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "errors", "companies"
   add_foreign_key "records", "companies"
   add_foreign_key "records", "days"
   add_foreign_key "user_favorites_tables", "companies"

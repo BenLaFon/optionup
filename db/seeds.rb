@@ -1,1 +1,0 @@
-Company.set_query_1_status

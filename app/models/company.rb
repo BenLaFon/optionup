@@ -1,5 +1,6 @@
 class Company < ApplicationRecord
-  has_many :records
+  has_many :records, dependent: :destroy
+
   has_many :user_favorites
   has_many :users, through: :user_favorites
   validates :ticker, presence: true, uniqueness: true
@@ -7,6 +8,7 @@ class Company < ApplicationRecord
   enum query_2_status: { zero_2: 0, one_2: 1, two_2: 2, three_2: 3, four_2: 4, five_2: 5 }
   enum color_code: { gray: 0, green: 1, yellow: 2, red: 3 }
   default_scope -> { order(ticker: :asc) }
+  scope :new_companies, -> {where("new = ?", true)}
 
   def get_records
     result = call_yahoo_api
@@ -15,6 +17,8 @@ class Company < ApplicationRecord
       p "no records for #{ticker} created error id:#{x.id} with message:#{x.message}"
       return
     end
+
+
 
     highs = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'high')
     unpack_records(result, highs)
@@ -154,6 +158,18 @@ class Company < ApplicationRecord
       company.update(level_two: true) if company.records.order(date: :desc).limit(1)[0]["sma_10"].to_f >= company.records.order(date: :desc).limit(10)[0]["sma_20"].to_f
     end
   end
+
+  def update_new_companies
+    Record.calc_sma
+    Record.calc_per_move
+    Company.new_companies.each do |company|
+      company.update(new: false)
+    end
+  end
+
+
+
+
 
   private
 
