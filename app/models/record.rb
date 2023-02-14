@@ -16,17 +16,17 @@ class Record < ApplicationRecord
     if Record.all.where(sma_10: nil).count.positive?
       self.calc_sma
     end
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_100_200 = (sma_100::double precision - sma_200::double precision) / sma_200::double precision * 100.000000 WHERE per_move_100_200 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_100_200 = (sma_100::double precision - sma_200::double precision) / sma_200::double precision * 100.000000 ")
     p "per_move_100_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_50_200 = (sma_50::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 WHERE per_move_50_200 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_50_200 = (sma_50::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 ")
     p "per_move_50_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_30_200 = (sma_30::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 WHERE per_move_30_200 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_30_200 = (sma_30::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 ")
     p "per_move_30_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_20_200 = (sma_20::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 WHERE per_move_20_200 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_20_200 = (sma_20::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 ")
     p "per_move_20_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_10_200 = (sma_10::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 WHERE per_move_10_200 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_10_200 = (sma_10::double precision - sma_200::double precision) / sma_200::double precision * 100.00000 ")
     p "per_move_10_200 run"
-    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_close_50 = (close::double precision - sma_50::double precision) / sma_50::double precision * 100.000000 WHERE per_move_close_50 is NULL")
+    ActiveRecord::Base.connection.execute("UPDATE records SET per_move_close_50 = (close::double precision - sma_50::double precision) / sma_50::double precision * 100.000000 ")
     p "per_move_close_50 run"
     Record.all.where(per_move_100_200: nil).count.positive? ? p("Percenateges still has nils") : p("Percenateges has no nils")
   end
@@ -47,11 +47,11 @@ class Record < ApplicationRecord
             AVG(a.close)
             OVER( PARTITION BY company_id ORDER BY a.date ROWS BETWEEN #{num} PRECEDING AND CURRENT ROW)
             AS #{word}
-            FROM records a
-            WHERE a.#{word} IS NULL)
+            FROM records a)
+
             UPDATE records set #{word} = v_table.#{word}
             FROM v_table
-            WHERE records.id = v_table.id AND records.#{word} IS NULL
+            WHERE records.id = v_table.id
             EOS
       ActiveRecord::Base.connection.execute(sql)
       p "#{word} avgs run"
