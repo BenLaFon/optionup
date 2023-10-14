@@ -1,17 +1,17 @@
-<div id="companies" class="min-w-full ">
+<div id="companies" class="min-w-full w-screen ">
   <div class="px-4 sm:px-6 lg:px-8 ">
     <div class="mt-8 flex flex-col items-center ">
       <div class="-my-2 -mx-4 sm:-mx-6 lg:-mx-8 ">
         <div class="inline-block  max-w-7xl py-2 align-middle md:px-6 lg:px-8 ">
           <div class=" max-h-screen overflow-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg ">
             <table class="divide-y divide-gray-300 table-fixed  ">
-              <thead class="bg-gray-50">
+              <thead class=" bg-stone-200">
                 <tr>
                   <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Symbol</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Sector</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Industry</th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Level</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reccomendation Lvl</th>
                   <%# <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Color</th> %>
                   <%# <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dividends</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">EPS</th>
@@ -32,15 +32,23 @@
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.industry%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900"><a href="/companies/<%=company.id%>" class=" hover:text-indigo-900"><%= company.query_1_status%></a></td>
                     <td class=" px-3 py-4 text-sm text-gray-900">
-
+                      <div>
+                        <label for="Color" class="block text-sm font-medium text-gray-700">Color</label>
+                        <select id="colors" name="color" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                          <option>Red</option>
+                          <option selected>Yellow</option>
+                          <option>Green</option>
+                          <option>Gray</option>
+                        </select>
+                      </div>
                     </td>
                     <%# <td class=" px-3 py-4 text-sm text-gray-500">dividends</td>
                     <td class=" px-3 py-4 text-sm text-gray-500">EPS</td>
                     <td class=" px-3 py-4 text-sm text-gray-500">Market</td>
                     <td class=" px-3 py-4 text-sm text-gray-500">3m Avg</td>
                     <td class=" px-3 py-4 text-sm text-gray-500">Trailing PES</td> %>
-                    <td class="relative  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <a href="/companies/<%=company.id%>" class="text-indigo-600 hover:text-indigo-900">Fav</a>
+                    <%# <td class="relative  py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"> %>
+                      <%# <a href="/companies/<%=company.id%><%#" class="text-indigo-600 hover:text-indigo-900">Fav</a> %>
                     </td>
                   </tr>
                 <% end %>
@@ -51,3 +59,15 @@
       </div>
     </div>
   </div>
+</div>
+<script>
+
+const colors = document.getElementById('colors');
+console.log(colors.children[0]);
+
+colors.children.forEach(color => {
+  console.log(color);
+});
+
+
+</script>

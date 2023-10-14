@@ -11,18 +11,13 @@ class Company < ApplicationRecord
   scope :new_companies, -> {where("new = ?", true)}
 
   def get_records
-    result = call_yahoo_api
-    if result.nil?
-      x = Error.create(company: self, message: "no records for #{ticker}, was returned nil")
-      p "no records for #{ticker} created error id:#{x.id} with message:#{x.message}"
+    p "getting records for #{ticker}"
+    if self.records.order(date: :desc).first.date == Date.yesterday
+      puts "already have records for #{ticker}"
       return
     end
+    result = call_alpha_api(ticker)
 
-
-
-    highs = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'high')
-    unpack_records(result, highs)
-    p "finished getting records for #{ticker}"
   end
 
   def self.set_query_1_status
@@ -173,22 +168,33 @@ class Company < ApplicationRecord
 
   private
 
-  def unpack_records(result, highs)
+  def unpack_records(result, ticker)
+
+    puts "getting records for #{ticker}"
+    # puts result
     count = 0
-    highs.each_with_index do |high, index|
+    if result["Error Message"] || result['Time Series (Daily)'].nil?
+      puts "no records for #{ticker}"
+      return
+    end
+    result['Time Series (Daily)'].each do |date, data|
       record = Record.new
       record.company = Company.find_by(ticker: ticker)
-      record.date = Time.at(result.dig('chart', 'result', 0, 'timestamp', index)).to_date
-      record.high = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'high', index)
-      record.low = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'low', index)
-      record.open = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'open', index)
-      record.close = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'close', index)
-      record.volume = result.dig('chart', 'result', 0, 'indicators', 'quote', 0, 'volume', index)
+      record.date = Date.parse(date)
+      record.high = data['2. high'].to_f
+      record.low = data['3. low'].to_f
+      record.open = data['1. open'].to_f
+      record.close = data['4. close'].to_f
+      record.volume = data['5. volume'].to_i
       if record.save
-        count += 1
-        "saved #{count} records for #{ticker}"
+        # puts "saved #{count} records for #{ticker}"
       else
-        p "record not saved for #{ticker}"
+        count += 1
+        if count > 5
+          puts "cutting off at #{date} for  #{ticker}"
+          return
+        end
+        # puts "record not saved for #{ticker}"
       end
     end
   end
@@ -220,6 +226,33 @@ class Company < ApplicationRecord
       end
     end
 
+  end
+
+  def call_alpha_api(ticker)
+    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{ticker}&apikey=1Q71KP6V00ZUZ881&outputsize=full"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    result = JSON.parse(response)
+    if result["Error Message"]
+      p "error message for #{ticker}"
+      return
+    end
+    if result["Error Message"]
+      p "error message for #{ticker}"
+      return
+    end
+
+    if result['Note']
+      puts "sleeping for 3 seconds"
+      sleep 3
+      call_alpha_api(ticker)
+    end
+    # if result != nil && result["Time Series (Daily)"] != nil && ticker != nil
+    #  unpack_records(result, ticker)
+    # end
+    unless result['Note'].nil?
+      unpack_records(result, ticker)
+    end
   end
 
   def range

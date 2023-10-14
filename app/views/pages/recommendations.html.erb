@@ -1,0 +1,105 @@
+<%= render "/shared/nav" %>
+
+<div class="flex justify-between py-6 px-12 mx-24">
+  <div class="text-2xl"> Reccomendations Level- <span><%= @tab%></span></div >
+
+</div>
+<div>
+  <div class="sm:hidden">
+    <label for="tabs" class="sr-only">Select a tab</label>
+    <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
+    <select id="tabs" name="tabs" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-emerald-900 focus:outline-none focus:ring-emerald-900 sm:text-sm">
+      <option>1</option>
+
+      <option>2</option>
+
+      <option >3</option>
+
+      <option>4</option>
+
+      <option>5</option>
+    </select>
+  </div>
+  <div class=" mx-32 hidden sm:block">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200" -->
+        <a href="/recommendations?tab=1" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm">
+          Level 1
+
+          <!-- Current: "bg-indigo-100 text-indigo-600", Default: "bg-gray-100 text-gray-900" -->
+          <span class="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"><%= @tab_1%></span>
+        </a>
+
+        <a href="/recommendations?tab=2" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm">
+          Level 2
+
+          <span class="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"><%= @tab_2%></span>
+        </a>
+
+        <a href="/recommendations?tab=3" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm" aria-current="page">
+          Level 3
+
+          <span class="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"><%= @tab_3%></span>
+        </a>
+
+        <a href="/recommendations?tab=4" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm">
+          Level 4
+
+          <span class="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"><%= @tab_4%></span>
+        </a>
+
+        <a href="/recommendations?tab=5" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm">
+          Level 5
+
+          <span class="bg-gray-100 text-gray-900 hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"><%= @tab_5%></span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%= render"/companies/company_table", companies: @companies%>
+
+<script>
+  // get the select element and listen for changes
+  var tabs = document.querySelector('#tabs');
+  tabs.children[<%= @tab - 1 %>].setAttribute('selected', true);
+  tabs.addEventListener('change', (event) => {
+    // redirect to the selected tab URL
+    const selectedTab = event.target.value;
+    window.location.href = `/recommendations?tab=${selectedTab}`;
+    const selectedOption = selectedTab.options[selectEl.selectedIndex];
+    selectedOption.setAttribute('selected', true);
+    // change the selected option's style to highlight it
+
+
+  });
+
+  let navigationLinks = document.querySelectorAll('nav.space-x-8 a');
+
+  navigationLinks[<%= @tab - 1 %>].className = 'border-yellow-900 text-emerald-600 whitespace-nowrap flex py-4 px-1 border-b-2 font-medium text-sm';
+  navigationLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      window.location.href = event.target.href;
+    });
+
+  });
+
+
+</script>

@@ -1,24 +1,24 @@
-<div class="w-full">
+<%= render "/shared/nav" %>
+<div class="min-w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block " id="notice"><%= notice %></p>
   <% end %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Companies</h1>
-    <%= link_to 'New company', new_company_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-4xl pl-24 pt-12">Companies</h1>
   </div>
-  <div class="mx-64 flex justify-between items-center">
-    <%= form_tag("/companies", method: "get") do %>
-      <%= label_tag(:q, "Search by symbol or Name:") %>
-      <%= text_field_tag(:q) %>
-      <%= submit_tag("Go") %>
-    <% end %>
 
-    <%= link_to 'Back to all companies', companies_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
-    <%= link_to 'recommendations', recommendations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+ <div class="mx-24 mt-12 flex justify-between items-center">
+  <%= form_tag("/companies", method: "get") do %>
+    <%= label_tag(:q, "Search by symbol or Name:", class: "sr-only") %>
+    <%= text_field_tag(:q, "", class: " rounded-full text-emerald-900 py-2 px-4 ") %>
+    <%= submit_tag("Search", class: " text-white px-4 py-2 rounded bg-gray-700") %>
+  <% end %>
+    <%= link_to 'Add company', new_company_path, class: "rounded-lg py-3 px-5 bg-emerald-900 text-white block font-medium" %>
+</div>
 
-  </div>
+
+
 
   <%= render"company_table", companies: @companies%>
-  </div>
-</div>
+
