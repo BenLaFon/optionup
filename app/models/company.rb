@@ -11,13 +11,45 @@ class Company < ApplicationRecord
   scope :new_companies, -> {where("new = ?", true)}
 
   def get_records
-    p "getting records for #{ticker}"
-    if self.records.order(date: :desc).first.date == Date.yesterday
+    #check company status
+    if self.status != 0
+      puts "#{self.ticker} is not active status"
+      return
+    end
+    # check latest record
+    last_record_date = self.records.order(date: :desc).first.date
+    if last_record_date == Date.yesterday
       puts "already have records for #{ticker}"
       return
     end
-    result = call_alpha_api(ticker)
 
+    p "getting records for #{ticker}"
+    begin
+      # code that might raise an exception
+      result = call_alpha_api(ticker)
+    rescue ExceptionType => e
+      # code to handle the exception
+      sleep 60
+      result = call_alpha_api(ticker)
+    end
+    tries = 0
+    while result['Note'] || result ['Information']
+      p "result had note, sleeping 10"
+      sleep 10
+      result = call_alpha_api(ticker)
+    end
+
+    if result["Error Message"]
+      p "result had error message"
+      status = 1
+      return
+    end
+
+    if result['Time Series (Daily)']
+      p "going into unpack"
+      unpack_records(result, ticker, last_record_date)
+    end
+  p 'ending '
   end
 
   def self.set_query_1_status
@@ -168,16 +200,17 @@ class Company < ApplicationRecord
 
   private
 
-  def unpack_records(result, ticker)
+  def unpack_records(result, ticker, last_record_date)
 
-    puts "getting records for #{ticker}"
+    puts "unpacking records for #{ticker}"
     # puts result
     count = 0
-    if result["Error Message"] || result['Time Series (Daily)'].nil?
-      puts "no records for #{ticker}"
-      return
-    end
+
     result['Time Series (Daily)'].each do |date, data|
+      if Date.parse(date) < last_record_date
+        puts "cutting off #{ticker} at #{date}"
+        return
+      end
       record = Record.new
       record.company = Company.find_by(ticker: ticker)
       record.date = Date.parse(date)
@@ -187,14 +220,10 @@ class Company < ApplicationRecord
       record.close = data['4. close'].to_f
       record.volume = data['5. volume'].to_i
       if record.save
-        # puts "saved #{count} records for #{ticker}"
-      else
         count += 1
-        if count > 5
-          puts "cutting off at #{date} for  #{ticker}"
-          return
-        end
-        # puts "record not saved for #{ticker}"
+        puts "saved #{count} records for #{ticker}"
+      else
+        puts "record not saved for #{ticker}"
       end
     end
   end
@@ -229,30 +258,11 @@ class Company < ApplicationRecord
   end
 
   def call_alpha_api(ticker)
-    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{ticker}&apikey=1Q71KP6V00ZUZ881&outputsize=full"
+    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{ticker}&apikey=O08I07M59NXJJ7UZ&outputsize=full"
     uri = URI(url)
     response = Net::HTTP.get(uri)
     result = JSON.parse(response)
-    if result["Error Message"]
-      p "error message for #{ticker}"
-      return
-    end
-    if result["Error Message"]
-      p "error message for #{ticker}"
-      return
-    end
-
-    if result['Note']
-      puts "sleeping for 3 seconds"
-      sleep 3
-      call_alpha_api(ticker)
-    end
-    # if result != nil && result["Time Series (Daily)"] != nil && ticker != nil
-    #  unpack_records(result, ticker)
-    # end
-    unless result['Note'].nil?
-      unpack_records(result, ticker)
-    end
+    return result
   end
 
   def range
