@@ -257,8 +257,8 @@ class Company < ApplicationRecord
 
   end
 
-  def call_alpha_api(ticker)
-    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{ticker}&apikey=O08I07M59NXJJ7UZ&outputsize=full"
+  def call_alpha_api(ticker = self.ticker)
+    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=#{ticker}&apikey=#{Rails.application.credentials.alpha_vantage.api_key}&outputsize=compact"
     uri = URI(url)
     response = Net::HTTP.get(uri)
     result = JSON.parse(response)
